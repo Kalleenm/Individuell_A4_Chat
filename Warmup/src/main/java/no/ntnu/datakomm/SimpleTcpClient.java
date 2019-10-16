@@ -122,7 +122,7 @@ public class SimpleTcpClient {
         try
             {
                 this.socket = new Socket(host, port);
-                connected = this.socket.isConnected()
+                connected = this.socket.isConnected();
             }
         catch (IOException e)
             {
