@@ -1,5 +1,8 @@
 package no.ntnu.datakomm;
 
+import java.io.IOException;
+import java.net.Socket;
+
 /**
  * A Simple TCP client, used as a warm-up exercise for assignment A4.
  */
@@ -8,6 +11,8 @@ public class SimpleTcpClient {
     private static final String HOST = "localhost";
     // TCP port
     private static final int PORT = 1301;
+
+    private Socket socket;
 
     /**
      * Run the TCP Client.
@@ -100,9 +105,25 @@ public class SimpleTcpClient {
      * @return True when connection established, false otherwise
      */
     private boolean connectToServer(String host, int port) {
-        // TODO - implement this method
+
+        boolean connected = false;
+        try
+            {
+                this.socket = new Socket(host, port);
+                connected = this.socket.isConnected()
+            }
+        catch (IOException e)
+            {
+            e.printStackTrace();
+            }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Port " + port + " is out of range. Please use a input number between 0 and 65535");
+        }
+
+
         // Remember to catch all possible exceptions that the Socket class can throw.
-        return false;
+        return connected;
     }
 
     /**
