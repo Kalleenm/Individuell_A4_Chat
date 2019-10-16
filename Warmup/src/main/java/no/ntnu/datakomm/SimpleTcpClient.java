@@ -1,6 +1,8 @@
 package no.ntnu.datakomm;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -133,13 +135,27 @@ public class SimpleTcpClient {
      * @return True when message successfully sent, false on error.
      */
     private boolean sendRequestToServer(String request) {
+
+        boolean successfullRequest = false;
+        try
+        {
+            OutputStream out = this.socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(out, true);
+            writer.println(request);
+            successfullRequest = true;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         // TODO - implement this method
         // Hint: What can go wrong? Several things:
         // * Connection closed by remote host (server shutdown)
         // * Internet connection lost, timeout in transmission
         // * Connection not opened.
         // * What is the request is null or empty?
-        return false;
+        return successfullRequest;
     }
 
     /**
