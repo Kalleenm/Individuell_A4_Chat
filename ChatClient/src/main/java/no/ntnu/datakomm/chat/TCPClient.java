@@ -75,10 +75,53 @@ public class TCPClient {
      * @param cmd A command. It should include the command word and optional attributes, according to the protocol.
      * @return true on success, false otherwise
      */
-    private boolean sendCommand(String cmd) {
+    private boolean sendCommand(String cmd)
+    {
         // TODO Step 2: Implement this method
         // Hint: Remember to check if connection is active
-        return false;
+        boolean attempt = false;
+
+        // Check if the connection is active.
+        /if (isConnectionActive())
+        {
+            if(cmd != null)
+            {
+                String editedCutCmdCommand = null;
+                String[] parts = cmd.split("");
+                String cmdCommand = parts[0];
+                if(cmdCommand.endsWith("/"))
+                {
+                    String cutCmdCommand = cmdCommand.replace("/", "")
+                            if(cutCmdCommand.endsWith("\n"))
+                            {
+                                editedCutCmdCommand = cutCmdCommand.replace("\n", "");
+                            }
+                            else
+                            {
+                                editedCutCmdCommand = cutCmdCommand;
+                            }
+                            if( editedCutCmdCommand.equals("privmsg")||
+                                editedCutCmdCommand.equals("help")   ||
+                                editedCutCmdCommand.equals("login")  ||
+                                editedCutCmdCommand.equals("user"))
+                            {
+                                String editedCmd = cmd.substring(1, cmd.length());
+
+                                // Print out to the console for debugging purposes.
+                                System.out.println("Sending command: " + editedCmd);
+                                attempt = true;
+                                toServer.println(editedCmd);
+                            }
+                }
+                else
+                {
+                    System.out.println("Sending message: " + cmd);
+                    attempt = true;
+                    toServer.println("msg" + cmd);
+                }
+            }
+        }
+        return attempt;
     }
 
     /**
@@ -91,7 +134,15 @@ public class TCPClient {
         // TODO Step 2: implement this method
         // Hint: Reuse sendCommand() method
         // Hint: update lastError if you want to store the reason for the error.
-        return false;
+
+        boolean messageSent = false;
+        String messageToSend = "msg " + message;
+
+        if(sendCommand(messageToSend))
+        {
+            messageSent = true;
+        }
+        return messageSent;
     }
 
     /**
