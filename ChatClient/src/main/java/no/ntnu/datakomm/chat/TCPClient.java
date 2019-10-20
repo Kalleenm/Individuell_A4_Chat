@@ -184,6 +184,10 @@ public class TCPClient {
         // TODO Step 5: implement this method
         // Hint: Use Wireshark and the provided chat client reference app to find out what commands the
         // client and server exchange for user listing.
+        if(isConnectionActive())
+        {
+            sendCommand("users ");
+        }
     }
 
     /**
@@ -412,6 +416,10 @@ public class TCPClient {
      */
     private void onUsersList(String[] users) {
         // TODO Step 5: Implement this method
+        for(ChatListener 1 : listeners)
+        {
+            1.onUsersList(users);
+        }
     }
 
     /**
