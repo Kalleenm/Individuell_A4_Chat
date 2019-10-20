@@ -35,7 +35,7 @@ public class TCPClient {
             if(this.connection.isConnected())
             {
                 InputStream in = connection.getInputStream();
-                this,toServer = new BufferedReader(new InputStreamReader());
+                this.fromServer = new BufferedReader(new InputStreamReader(in));
                 OutputStream out = connection.getOutputStream();
                 this.toServer = new PrintWriter(out, true);
                 connected = true;
@@ -97,7 +97,7 @@ public class TCPClient {
         boolean attempt = false;
 
         // Check if the connection is active.
-        /if (isConnectionActive())
+        if (isConnectionActive())
         {
             if(cmd != null)
             {
@@ -106,7 +106,7 @@ public class TCPClient {
                 String cmdCommand = parts[0];
                 if(cmdCommand.endsWith("/"))
                 {
-                    String cutCmdCommand = cmdCommand.replace("/", "")
+                    String cutCmdCommand = cmdCommand.replace("/", "");
                             if(cutCmdCommand.endsWith("\n"))
                             {
                                 editedCutCmdCommand = cutCmdCommand.replace("\n", "");
@@ -317,9 +317,9 @@ public class TCPClient {
                         onLoginResult(false, extraParameters);
                         break;
 
-                    case "user":
+                    case "users":
                         extraParameters = serverResponseArr[1];
-                        String[] users = new extraParameters.split(" ");
+                        String[] users = extraParameters.split(" ");
                         onUsersList(users);
                         break;
 
@@ -334,7 +334,7 @@ public class TCPClient {
                     case "privmsg":
                         extraParameters = serverResponseArr[1];
                         extraParametersArr = extraParameters.split(" , 2");
-                        sender = extraParameters[0];
+                        sender = extraParametersArr[0];
                         text = extraParametersArr[1];
                         onMsgReceived(true, sender, text);
                         break;
@@ -409,9 +409,9 @@ public class TCPClient {
     private void onDisconnect() {
         // TODO Step 4: Implement this method
         // Hint: all the onXXX() methods will be similar to onLoginResult()
-        for(ChatListener 1: listeners)
+        for (ChatListener l : listeners)
         {
-            1.onDisconnect();
+            l.onDisconnect();
         }
     }
 
@@ -422,9 +422,9 @@ public class TCPClient {
      */
     private void onUsersList(String[] users) {
         // TODO Step 5: Implement this method
-        for(ChatListener 1 : listeners)
+        for(ChatListener l : listeners)
         {
-            1.onUsersList(users);
+            l.onUserList(users);
         }
     }
 
@@ -438,9 +438,8 @@ public class TCPClient {
     private void onMsgReceived(boolean priv, String sender, String text) {
         // TODO Step 7: Implement this method
         TextMessage textMessage = new TextMessage(sender, priv, text);
-        for (ChatListener 1 : listeners)
-        {
-            1.onMessageReceived(textMessage);
+        for (ChatListener l : listeners) {
+            l.onMessageReceived(textMessage);
         }
     }
 
@@ -451,22 +450,22 @@ public class TCPClient {
      */
     private void onMsgError(String errMsg) {
         // TODO Step 7: Implement this method
-    for(ChatListener 1 : listeners)
-        {
-            1.onMessageError(errMsg);
+            for (ChatListener l : listeners)
+            {
+                l.onMessageError(errMsg);
+            }
         }
-    }
 
-    /**
-     * Notify listeners that command was not understood by the server.
-     *
-     * @param errMsg Error message
-     */
+        /**
+         * Notify listeners that command was not understood by the server.
+         *
+         * @param errMsg Error message
+         */
     private void onCmdError(String errMsg) {
         // TODO Step 7: Implement this method
-        for (ChatListener 1 : listeners)
+        for (ChatListener l : listeners)
         {
-            1.onCommandError(errMsg);
+            l.onMessageError(errMsg);
         }
     }
 
@@ -478,9 +477,9 @@ public class TCPClient {
      */
     private void onSupported(String[] commands) {
         // TODO Step 8: Implement this method
-        for(ChatListener 1 : listeners)
+        for (ChatListener l : listeners)
         {
-            1.onSupportedCommands(commands);
+            l.onSupportedCommands(commands);
         }
     }
 }
