@@ -213,6 +213,10 @@ public class TCPClient {
     public void askSupportedCommands() {
         // TODO Step 8: Implement this method
         // Hint: Reuse sendCommand() method
+        if(isConnectionActive())
+        {
+            sendCommand("help");
+        }
     }
 
 
@@ -462,7 +466,7 @@ public class TCPClient {
         // TODO Step 7: Implement this method
         for (ChatListener 1 : listeners)
         {
-            1.onCommandError(errmsg);
+            1.onCommandError(errMsg);
         }
     }
 
@@ -474,5 +478,9 @@ public class TCPClient {
      */
     private void onSupported(String[] commands) {
         // TODO Step 8: Implement this method
+        for(ChatListener 1 : listeners)
+        {
+            1.onSupportedCommands(commands);
+        }
     }
 }
