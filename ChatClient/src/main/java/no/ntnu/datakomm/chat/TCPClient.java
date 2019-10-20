@@ -60,6 +60,21 @@ public class TCPClient {
     public synchronized void disconnect() {
         // TODO Step 4: implement this method
         // Hint: remember to check if connection is active
+        if (isConnectionActive())
+        {
+            try
+            {
+                connection.close();
+                connection = null;
+                toServer = null;
+                fromServer = null;
+                onDisconnect();
+            }
+            catch (IOException e)
+            {
+                System.out.println("Soccket error: " + e.getMessage());
+            }
+        }
     }
 
     /**
@@ -384,6 +399,10 @@ public class TCPClient {
     private void onDisconnect() {
         // TODO Step 4: Implement this method
         // Hint: all the onXXX() methods will be similar to onLoginResult()
+        for(ChatListener 1: listeners)
+        {
+            1.onDisconnect();
+        }
     }
 
     /**
