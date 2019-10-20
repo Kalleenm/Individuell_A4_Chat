@@ -433,6 +433,11 @@ public class TCPClient {
      */
     private void onMsgReceived(boolean priv, String sender, String text) {
         // TODO Step 7: Implement this method
+        TextMessage textMessage = new TextMessage(sender, priv, text);
+        for (ChatListener 1 : listeners)
+        {
+            1.onMessageReceived(textMessage);
+        }
     }
 
     /**
@@ -442,6 +447,10 @@ public class TCPClient {
      */
     private void onMsgError(String errMsg) {
         // TODO Step 7: Implement this method
+    for(ChatListener 1 : listeners)
+        {
+            1.onMessageError(errMsg);
+        }
     }
 
     /**
@@ -451,6 +460,10 @@ public class TCPClient {
      */
     private void onCmdError(String errMsg) {
         // TODO Step 7: Implement this method
+        for (ChatListener 1 : listeners)
+        {
+            1.onCommandError(errmsg);
+        }
     }
 
     /**
