@@ -107,10 +107,10 @@ public class TCPClient {
                     } else {
                         editedCutCmdCommand = cutCmdCommand;
                     }
-                    if (editedCutCmdCommand.equals("privmsg") ||
-                            editedCutCmdCommand.equals("help") ||
-                            editedCutCmdCommand.equals("login") ||
-                            editedCutCmdCommand.equals("user")) {
+                    if (editedCutCmdCommand.equals("privmsg ") ||
+                            editedCutCmdCommand.equals("help ") ||
+                            editedCutCmdCommand.equals("login ") ||
+                            editedCutCmdCommand.equals("user ")) {
                         String editedCmd = cmd.substring(1, cmd.length());
 
                         // Print out to the console for debugging purposes.
@@ -162,7 +162,7 @@ public class TCPClient {
         //Checks if the connection is still active.
         if(this.connection.isConnected())
         {
-            sendCommand("login" + username);
+            sendCommand("login " + username);
         }
     }
 
@@ -192,7 +192,7 @@ public class TCPClient {
         // Hint: Reuse sendCommand() method
         // Hint: update lastError if you want to store the reason for the error.
         boolean result = false;
-        result = sendCommand("privmsg" + recipient + " " + message);
+        result = sendCommand("privmsg " + recipient + " " + message);
         return result;
     }
 
@@ -205,7 +205,7 @@ public class TCPClient {
         // Hint: Reuse sendCommand() method
         if(isConnectionActive())
         {
-            sendCommand("help");
+            sendCommand("help ");
         }
     }
 
@@ -323,7 +323,7 @@ public class TCPClient {
 
                     case "privmsg":
                         extraParameters = serverResponseArr[1];
-                        extraParametersArr = extraParameters.split(" , 2");
+                        extraParametersArr = extraParameters.split(" ",2);
                         sender = extraParametersArr[0];
                         text = extraParametersArr[1];
                         onMsgReceived(true, sender, text);
